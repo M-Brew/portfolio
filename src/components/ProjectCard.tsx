@@ -8,7 +8,9 @@ import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Image from "next/image";
 
-export default function ProjectCard() {
+export default function ProjectCard(props: IProjectCard) {
+  const { title, summary, image, fields } = props.project;
+
   return (
     <Box>
       <Card elevation={0}>
@@ -26,9 +28,7 @@ export default function ProjectCard() {
               >
                 <Image
                   alt="landing"
-                  src={
-                    "https://images.unsplash.com/photo-1594322436404-5a0526db4d13?q=80&w=2929&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  }
+                  src={image}
                   fill
                   style={{
                     objectFit: "cover",
@@ -42,31 +42,21 @@ export default function ProjectCard() {
             </Grid>
             <Grid size={8}>
               <Typography mb={1} variant="subtitle1" fontWeight="bold">
-                Blog App
+                {title}
               </Typography>
               <Typography mb={1} variant="body1" fontWeight={200}>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo
-                sunt mollitia sapiente veniam aperiam dicta ratione hic dolor?
+                {summary}
               </Typography>
               <Box mt={2}>
-                <Chip
-                  size="small"
-                  label="CRUD"
-                  variant="outlined"
-                  sx={{ mr: 1 }}
-                />
-                <Chip
-                  size="small"
-                  label="Auth"
-                  variant="outlined"
-                  sx={{ mr: 1 }}
-                />
-                <Chip
-                  size="small"
-                  label="Database"
-                  variant="outlined"
-                  sx={{ mr: 1 }}
-                />
+                {fields.map((field, idx) => (
+                  <Chip
+                    key={idx}
+                    size="small"
+                    label={field}
+                    variant="outlined"
+                    sx={{ mr: 1, mb: 1 }}
+                  />
+                ))}
               </Box>
             </Grid>
           </Grid>
@@ -74,4 +64,15 @@ export default function ProjectCard() {
       </Card>
     </Box>
   );
+}
+
+export interface IProject {
+  title: string;
+  summary: string;
+  image: string;
+  fields: string[];
+}
+
+interface IProjectCard {
+  project: IProject;
 }

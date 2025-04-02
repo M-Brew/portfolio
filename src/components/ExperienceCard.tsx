@@ -7,7 +7,12 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 
-export default function ExperienceCard() {
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+
+export default function ExperienceCard(props: IExperienceCard) {
+  const { startYear, endYear, role, roleSummary, company, fields } =
+    props.experience;
+
   return (
     <Box
       sx={{
@@ -24,37 +29,33 @@ export default function ExperienceCard() {
           <Grid container spacing={1}>
             <Grid size={3}>
               <Typography fontSize={12} sx={{ opacity: 0.5 }}>
-                2024 - PRESENT
+                {startYear} - {endYear ?? "PRESENT"}
               </Typography>
             </Grid>
             <Grid size={9}>
               <Typography mb={1} variant="subtitle1" fontWeight="bold">
-                Full Stack Engineer
+                {role}{" "}
+                <span style={{ marginLeft: "5px", marginRight: "5px" }}>
+                  <FiberManualRecordIcon
+                    fontSize="small"
+                    sx={{ fontSize: "5px" }}
+                  />
+                </span>{" "}
+                {company}
               </Typography>
               <Typography mb={1} variant="body1" fontWeight={200}>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo
-                sunt mollitia sapiente veniam aperiam dicta ratione hic dolor?
-                Amet, hic.
+                {roleSummary}
               </Typography>
               <Box mt={2}>
-                <Chip
-                  size="small"
-                  label="NodeJS"
-                  variant="outlined"
-                  sx={{ mr: 1 }}
-                />
-                <Chip
-                  size="small"
-                  label="React"
-                  variant="outlined"
-                  sx={{ mr: 1 }}
-                />
-                <Chip
-                  size="small"
-                  label="TypeScript"
-                  variant="outlined"
-                  sx={{ mr: 1 }}
-                />
+                {fields.map((field, idx) => (
+                  <Chip
+                    key={idx}
+                    size="small"
+                    label={field}
+                    variant="outlined"
+                    sx={{ mr: 1, mb: 1 }}
+                  />
+                ))}
               </Box>
             </Grid>
           </Grid>
@@ -62,4 +63,17 @@ export default function ExperienceCard() {
       </Card>
     </Box>
   );
+}
+
+export interface IExperience {
+  startYear: string;
+  endYear?: string;
+  role: string;
+  roleSummary: string;
+  company: string;
+  fields: string[];
+}
+
+interface IExperienceCard {
+  experience: IExperience;
 }
